@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>哔哔点啥</title>
+    <link href="https://fonts.loli.net/css?family=Noto+Serif+SC:200,300,900&display=swap&subset=chinese-simplified" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css?ver=1.0.0">
+    <script src="./jquery.min.js"></script>
+</head>
+<body>
+    <header class="main-width block">
+        <h1 class="title"><a href="/">哔哔点啥</a></h1>
+        <h2 class="description">我保留我说话的权力，各位就只管听吧。</h2>
+        <p class="count">到现在总共哔哔了<span class="count-data">0</span>句话</p>
+    </header>
+
+    <div class="list main-width block">
+    </div>
+
+    <div class="load main-width block">
+        <span class="button-load">加载更多</span>
+    </div>
+
+    <footer class="main-width">
+        - code by <a href="https://bearye.cn" target="_blank">bearye</a>
+    </footer>
+
+    <script src="https://imgcache.qq.com/qcloud/tcbjs/1.6.1/tcb.js"></script>
+    <script>
+
+        //初始化
+        const app = tcb.init({
+          env: 'envid' //这里是你的环境id
+        })
+
+        app.auth({
+            persistence: "session"
+        }).anonymousAuthProvider().signIn().then(() => {
+            //定义数据对象
+            const db = app.database()
+            //选择数据表
+            const collection = db.collection('talks')
+            
+            /**
+             * 定义基本变量
+             * count | int, 数目
+             * per | int, 每页显示项目数
+             * page | int, 第几页
+             */
+            var count=0, per = 8,page = 1
+
+            /**
+             * 获取数目
+             */
+            collection.count(function(err,res){
+                count = res.total
+                $('.count-data').text(count)
+                getList()
+            })
+
+            /**
+             * 封装获取数据函数
+             */
+            function getList(){
+                if((page-1)*per >= count){
+                    return
+                }
+                var date
+                collection.limit(per).skip((page-1)*per).orderBy('date','desc').get(function(err, res) {
+                    (res.data).forEach(item => {
+                        date = item.date
+                        $('.list').append('<article class="item"><p class="content">'+item.content+'</p><p class="date">'+date.getFullYear()+'年'+(date.getMonth()+1)+'月'+date.getDate()+'日 '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds()+'</p></article>')
+                    });
+                    if(page*per >= count){
+                        $('.load').remove()
+                        return
+                    }
+                    page++
+                });
+            }
+
+            $('.button-load').click(function(){getList()})
+        }).catch(err => {
+            console.log(err)
+        });
+        
+      </script>
+</body>
+</html>

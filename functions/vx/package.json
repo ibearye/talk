@@ -1,0 +1,10 @@
+{
+    "name": "vx",
+    "version": "1.0.0",
+    "main": "index.js",
+    "dependencies": {
+        "js-sha1": "^0.6.0",
+        "tcb-admin-node": "^1.22.2",
+        "xmlreader": "^0.2.3"
+    }
+}
