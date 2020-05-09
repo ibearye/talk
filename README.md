@@ -179,5 +179,3 @@ return event.queryStringParameters.echostr //微信公众号接入验证，验�
 
 虽然项目只用于单用户，但其实扩展成多用户亦无需太多改动。NoSQL添加一个集合用于保存微信用户的`open_id`，内容集合也添加`open_id`用于表示不同用户发布的内容，云函数插入数据时添加`open_id`，而前端无需多说，提取内容时加上where判断即可。
 
-在写readme文档时，林木木（https://immmmm.com/）询问是否可多用户发布自己基于leancloud的b言b语，其实也很简单，取项目云函数中的数据处理部分，修改为对leancloud请求即可，而多用户依旧只在于是否多一个集合。
-
