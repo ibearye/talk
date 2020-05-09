@@ -1,6 +1,6 @@
 # talk
 
-![](https://stop.nooooe.cn/2020/05/maiqq-ur8l8-scaled.gif)
+![](https://upimage.alexhchu.com/2020/05/09/a3d10c630a08f.gif)
 
 https://talk.bearye.cn
 
