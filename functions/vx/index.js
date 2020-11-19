@@ -51,7 +51,8 @@ exports.main = async (event, context) => {
             ToUserName = requestData.xml.ToUserName.text(),
             CreateTime = Date.now(),
             MsgType = requestData.xml.MsgType.text(),
-            Content = requestData.xml.Content.text()
+            Content = requestData.xml.Content.text(),
+            From = '微信公众号'
 
 
         const adminCollection = db.collection('admin')
@@ -87,7 +88,7 @@ exports.main = async (event, context) => {
                         break
                     default :
                         const talksCollection = db.collection('talks')
-                        var result = await talksCollection.add({content: Content, date: new Date(CreateTime)})
+                        var result = await talksCollection.add({content: Content, date: new Date(CreateTime), from: From})
                         if(result.hasOwnProperty('id')){
                             Content = '发表成功'
                         }else{
